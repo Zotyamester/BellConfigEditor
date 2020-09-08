@@ -1,5 +1,5 @@
 # BellConfigEditor
-A special config editor for the school bell's config files.
+A special config editor for the school bell's config files. 🛎⚙
 
 ## Screenshots
 ![screenshot1](screenshot1.png)

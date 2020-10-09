@@ -4,18 +4,18 @@ using System.Windows.Forms;
 
 namespace BellConfigEditor
 {
-    public partial class Form2 : Form
+    public partial class TimeEditor : Form
     {
-        public static List<Timestamp> timestamps;
+        public List<Timestamp> timestamps;
 
-        public Form2(List<Timestamp> timestamps)
+        public TimeEditor(List<Timestamp> timestamps)
         {
             InitializeComponent();
-            Form2.timestamps = timestamps;
+            this.timestamps = timestamps;
             lvTimestamps.Clear();
             foreach (Timestamp timestamp in timestamps)
             {
-                lvTimestamps.Items.Add(timestamp.Repr());
+                lvTimestamps.Items.Add(timestamp.ToString());
             }
         }
 
@@ -40,7 +40,7 @@ namespace BellConfigEditor
             timestamp.minute = int.Parse(tbMinute.Text);
             timestamp.second = int.Parse(tbSecond.Text);
             timestamps.Add(timestamp);
-            lvTimestamps.Items.Add(timestamp.Repr());
+            lvTimestamps.Items.Add(timestamp.ToString());
             ClearFields();
         }
 
@@ -51,6 +51,7 @@ namespace BellConfigEditor
 
         private void bClose_Click(object sender, EventArgs e)
         {
+            timestamps.Sort();
             Close();
         }
 

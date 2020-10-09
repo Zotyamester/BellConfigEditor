@@ -67,7 +67,7 @@ namespace BellConfigEditor
             this.bNewConfig.TabIndex = 0;
             this.bNewConfig.Text = "Új";
             this.bNewConfig.UseVisualStyleBackColor = true;
-            this.bNewConfig.Click += new System.EventHandler(this.button2_Click);
+            this.bNewConfig.Click += new System.EventHandler(this.bNewConfig_Click);
             // 
             // bSaveConfig
             // 

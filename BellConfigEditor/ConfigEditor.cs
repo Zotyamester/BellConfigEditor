@@ -8,25 +8,25 @@ namespace BellConfigEditor
 {
     public partial class ConfigEditor : Form
     {
-        private List<Rule> rules;
+        private List<Bell> bells;
         private List<Timestamp> currentTimestamps;
         private string selectedfile = "";
 
         public ConfigEditor()
         {
             InitializeComponent();
-            rules = new List<Rule>();
+            bells = new List<Bell>();
             currentTimestamps = new List<Timestamp>();
         }
 
         private void LoadRings(string filename)
         {
-            rules.Clear();
+            bells.Clear();
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(filename);
             foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
             {
-                Rule rule = new Rule();
+                Bell bell = new Bell();
                 string soundfile = node.ChildNodes[0].InnerText;
                 Days days = new Days();
                 days.mo = Convert.ToBoolean(int.Parse(node.ChildNodes[1].Attributes[0].Value));
@@ -45,11 +45,11 @@ namespace BellConfigEditor
                     timestamp.second = int.Parse(node.ChildNodes[i].Attributes[2].Value);
                     timestamps.Add(timestamp);
                 }
-                rule.soundfile = soundfile;
-                rule.days = days;
-                rule.timestamps = timestamps;
-                rules.Add(rule);
-                lvRules.Items.Add(rule.Repr());
+                bell.soundfile = soundfile;
+                bell.days = days;
+                bell.timestamps = timestamps;
+                bells.Add(bell);
+                lvRules.Items.Add(bell.ToString());
             }
         }
 
@@ -71,7 +71,8 @@ namespace BellConfigEditor
 
             XmlNode bellNode = xmlDoc.CreateElement("bell");
 
-            foreach (Rule r in rules)
+            bells.Sort();
+            foreach (Bell r in bells)
             {
                 XmlNode ringNode = xmlDoc.CreateElement("ring");
 
@@ -148,7 +149,7 @@ namespace BellConfigEditor
 
         private void bNewRule_Click(object sender, EventArgs e)
         {
-            Rule r = new Rule();
+            Bell r = new Bell();
             string soundfile = selectedfile;
             Days days = new Days();
             days.mo = chkMonday.Checked;
@@ -161,12 +162,12 @@ namespace BellConfigEditor
             r.soundfile = soundfile;
             r.days = days;
             r.timestamps = currentTimestamps;
-            rules.Add(r);
-            lvRules.Items.Add(r.Repr());
+            bells.Add(r);
+            lvRules.Items.Add(r.ToString());
             ClearFields();
         }
 
-        private void SetFields(Rule r)
+        private void SetFields(Bell r)
         {
             ClearFields();
             selectedfile = r.soundfile;
@@ -189,7 +190,7 @@ namespace BellConfigEditor
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.InitialDirectory = "C:\\";
                 openFileDialog.RestoreDirectory = true;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -199,10 +200,10 @@ namespace BellConfigEditor
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void bNewConfig_Click(object sender, EventArgs e)
         {
             ClearFields();
-            rules = new List<Rule>();
+            bells = new List<Bell>();
             lvRules.Clear();
         }
 
@@ -210,7 +211,7 @@ namespace BellConfigEditor
         {
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
-                saveFileDialog.InitialDirectory = "c:\\";
+                saveFileDialog.InitialDirectory = "C:\\";
                 saveFileDialog.RestoreDirectory = true;
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -223,19 +224,18 @@ namespace BellConfigEditor
 
         private void bEdit_Click(object sender, EventArgs e)
         {
-            using (Form2 form2 = new Form2(currentTimestamps))
+            using (TimeEditor form2 = new TimeEditor(currentTimestamps))
             {
                 form2.ShowDialog();
             }
         }
 
-
         private void lvRules_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lvRules.SelectedItems.Count == 0)
                 return;
-            Rule r = rules[lvRules.SelectedItems[0].Index];
-            rules.RemoveAt(lvRules.SelectedItems[0].Index);
+            Bell r = bells[lvRules.SelectedItems[0].Index];
+            bells.RemoveAt(lvRules.SelectedItems[0].Index);
             lvRules.Items.RemoveAt(lvRules.SelectedItems[0].Index);
             SetFields(r);
         }

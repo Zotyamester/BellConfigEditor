@@ -1,6 +1,6 @@
 ﻿namespace BellConfigEditor
 {
-    partial class Form2
+    partial class TimeEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -135,7 +135,7 @@
             this.tbSecond.TabIndex = 4;
             this.tbSecond.Text = "0";
             // 
-            // Form2
+            // TimeEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -150,7 +150,7 @@
             this.Controls.Add(this.lvTimestamps);
             this.Controls.Add(this.bDelete);
             this.Controls.Add(this.bNew);
-            this.Name = "Form2";
+            this.Name = "TimeEditor";
             this.Text = "Időpontszerkesztő";
             this.ResumeLayout(false);
             this.PerformLayout();
